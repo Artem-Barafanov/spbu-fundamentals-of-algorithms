@@ -4,7 +4,8 @@ import yaml
 import numpy as np
 from numpy.typing import NDArray
 
-from src.common import ProblemCase
+from collections import namedtuple
+ProblemCase = namedtuple("ProblemCase", "input, output")
 
 
 class Stack:
@@ -15,28 +16,25 @@ class Stack:
         self._top_i: int = -1  # index of the most recently inserted element
 
     def empty(self) -> bool:
-        ##########################
-        ### PUT YOUR CODE HERE ###
-        ##########################
-
-        pass
+        return self._top_i == -1
 
     def push(self, x: Any) -> None:
         """Complexity: O(1)"""
-        ##########################
-        ### PUT YOUR CODE HERE ###
-        ##########################
-
-        pass
+        if self._top_i == len(self._array) - 1:
+            print("Error")
+            return
+        self._top_i += 1
+        self._array[self._top_i] = x
 
     def pop(self) -> Any:
         """Complexity: O(1)"""
-        ##########################
-        ### PUT YOUR CODE HERE ###
-        ##########################
-
-        pass
-
+        if self.empty():
+            print("Error")
+            return None
+        x = self._array[self._top_i]
+        # self._array[self._top_i] = 0
+        self._top_i -= 1
+        return x
 
 class StackUnderflowException(BaseException):
     pass
@@ -58,11 +56,16 @@ def get_starting_symbol(sym: str) -> str:
 
 
 def are_parentheses_valid(s: str) -> bool:
-    ##########################
-    ### PUT YOUR CODE HERE ###
-    ##########################
-
-    pass
+    st = Stack(len(s), str)
+    for i in range(len(s)):
+        if s[i] == "(" or s[i] == "[" or s[i] == "{":
+            st.push(s[i])
+        elif s[i] == ")" or s[i] == "]" or s[i] == "}":
+            if st._array[st._top_i] == get_starting_symbol(s[i]):
+                st.pop()
+            else:
+                return False
+    return st.empty()
 
 
 if __name__ == "__main__":

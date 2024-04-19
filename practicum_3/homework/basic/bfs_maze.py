@@ -1,4 +1,5 @@
 from time import perf_counter
+from collections import deque
 
 
 class Maze:
@@ -37,14 +38,26 @@ class Maze:
 
 
 def solve(maze: Maze) -> None:
-    path = ""  # solution as a string made of "L", "R", "U", "D"
+    start = (0, maze.start_j)
+    queue = deque([(start, "")])
+    visited = set()
 
-    ##########################
-    ### PUT YOUR CODE HERE ###
-    ##########################
+    while queue:
+        (i, j), path = queue.popleft()
 
-    print(f"Found: {path}")
-    maze.print(path)
+        if maze.list_view[i][j] == 'X':
+            print(f"Found: {path}")
+            maze.print(path)
+
+        if (i, j) in visited:
+            continue
+
+        visited.add((i, j))
+
+        for di, dj, direction in [(-1, 0, 'U'), (1, 0, 'D'), (0, -1, 'L'), (0, 1, 'R')]:
+            new_i, new_j = i + di, j + dj
+            if 0 <= new_i < len(maze.list_view) and 0 <= new_j < len(maze.list_view[0]) and maze.list_view[new_i][new_j] != '#':
+                queue.append(((new_i, new_j), path + direction))
 
 
 def _shift_coordinate(i: int, j: int, move: str) -> tuple[int, int]:
