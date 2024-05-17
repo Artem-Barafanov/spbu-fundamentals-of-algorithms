@@ -10,6 +10,7 @@ NDArrayFloat = NDArray[np.float_]
 
 def inverse_power_method(A: NDArrayFloat, n_iters: int) -> NDArrayFloat:
     A = np.linalg.inv(A)
+    min_eigenvalue_history = np.zeros((n_iters,))
     u_k = np.random.random(A.shape[0])
     u_kk = np.zeros_like(u_k)
     for k in range(n_iters):
@@ -18,7 +19,8 @@ def inverse_power_method(A: NDArrayFloat, n_iters: int) -> NDArrayFloat:
         u_kk = pre_u_kk / A_u_k_norm
         dominant_eigenvalue = A_u_k_norm * u_kk[0] / u_k[0]
         u_k = u_kk
-    return (1/dominant_eigenvalue)
+        min_eigenvalue_history[k] = (1/dominant_eigenvalue)
+    return min_eigenvalue_history
 
 
 if __name__ == "__main__":
