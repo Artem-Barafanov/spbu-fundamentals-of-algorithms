@@ -1,3 +1,5 @@
+import os
+
 import matplotlib.pyplot as plt
 import networkx as nx
 
@@ -5,7 +7,6 @@ TEST_GRAPH_FILES = [
     "graph_1_wo_cycles.edgelist",
     "graph_2_w_cycles.edgelist",
 ]
-
 
 def plot_graph(G):
     options = dict(
@@ -21,7 +22,7 @@ def plot_graph(G):
         nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
     plt.show()
 
-def has_cycles_dfs_algorithm(G: nx.Graph):
+def has_cycles(G: nx.Graph):
     global flag
     # состояния node: 0 ("Белая точка") - ещё не посетили точку, 1 ("Серая точка") - точка открыта (посетили точку), 
     # 2 ("Чёрная точка") - точка закрыта (посетили всё поддерево, узлом которого является эта node)
@@ -37,11 +38,11 @@ def has_cycles_dfs_algorithm(G: nx.Graph):
                 parent[int(i)] = node
                 for j in G.neighbors(i):
                     if (colour[int(j)] == 1 or colour[int(j)] == 2) and (j != parent[int(i)]): #Если сосед (серый или чёрный) и он не родитель - есть цикл
-                        flag = False
+                        flag = True
                 dfs_visit(i)
         colour[int(node)] = 2
     
-    flag = True
+    flag = False
     for node in G:
         if colour[int(node)] == 0:
             dfs_visit(node)
@@ -50,9 +51,7 @@ def has_cycles_dfs_algorithm(G: nx.Graph):
 
 if __name__ == "__main__":
     for filename in TEST_GRAPH_FILES:
-        G = nx.read_edgelist("D:/spbu-fundamentals-of-algorithms/practicum_2/homework/basic/" + filename, create_using=nx.Graph)
-        plot_graph(G)
-        if has_cycles_dfs_algorithm(G):
-            print(f"Graph {filename} has cycles: NO")
-        else:
-            print(f"Graph {filename} has cycles: YES")
+        G = nx.read_edgelist(
+            os.path.join("practicum_2", "homework", filename), create_using=nx.Graph
+        )
+        print(f"Graph {filename} has cycles: {has_cycles(G)}")
