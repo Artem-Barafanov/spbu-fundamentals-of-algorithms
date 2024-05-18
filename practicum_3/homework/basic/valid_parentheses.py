@@ -72,7 +72,7 @@ if __name__ == "__main__":
     # Let's solve Valid Parentheses problem from leetcode.com:
     # https://leetcode.com/problems/valid-parentheses/
     cases = []
-    with open("practicum_3/homework/basic/valid_parentheses_cases.yaml", "r") as f:
+    with open("D:/spbu-fundamentals-of-algorithms/practicum_3/homework/basic/valid_parentheses_cases.yaml", "r") as f:
         cases = yaml.safe_load(f)
     for c in cases:
         res = are_parentheses_valid(c["input"])
