@@ -4,8 +4,7 @@ import yaml
 import numpy as np
 from numpy.typing import NDArray
 
-from collections import namedtuple
-ProblemCase = namedtuple("ProblemCase", "input, output")
+from src.common import ProblemCase
 
 
 class Stack:
