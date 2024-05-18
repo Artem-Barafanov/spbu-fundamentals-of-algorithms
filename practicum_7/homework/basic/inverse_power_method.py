@@ -1,7 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from src.common import NDArrayFloat
+from collections import namedtuple
+from numpy.typing import NDArray
+
+
+ProblemCase = namedtuple("ProblemCase", "input, output")
+NDArrayInt = NDArray[np.int_]
+NDArrayFloat = NDArray[np.float_]
 
 def inverse_power_method(A: NDArrayFloat, n_iters: int) -> NDArrayFloat:
     A = np.linalg.inv(A)
